@@ -9,6 +9,8 @@ using h23final_serveur.Data;
 using h23final_serveur.Models;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using h23final_serveur.DTOs;
 
 namespace h23final_serveur.Controllers
 {
@@ -17,10 +19,12 @@ namespace h23final_serveur.Controllers
     public class ReactionsController : ControllerBase
     {
         private readonly h23final_serveurContext _context;
+        readonly UserManager<User> UserManager;
 
-        public ReactionsController(h23final_serveurContext context)
+        public ReactionsController(h23final_serveurContext context, UserManager<User> userManager)
         {
             _context = context;
+            this.UserManager = userManager;
         }
 
         [HttpGet("{id}")]
@@ -50,19 +54,49 @@ namespace h23final_serveur.Controllers
                 return Problem("Entity set 'h23final_serveurContext.Reaction' is null.");
             }
 
-            // ███ À compléter ███
-			
-            Reaction? reaction = null;
+            Reaction? reaction = await _context.Reaction
+                .Include(r => r.Users)
+                .FirstOrDefaultAsync(r => r.Id == id);
 
-            if (reaction == null || _context.Users == null)
+            if (reaction == null)
             {
-                return NotFound("Réaction non trouvée ou utilisateur non trouvé !");
+                return NotFound("Réaction non trouvée !");
             }
 
-            // ███ À compléter ███
+            User? user = await _context.Users
+                .FirstOrDefaultAsync(u => u.Id == User.FindFirstValue(ClaimTypes.NameIdentifier));
+
+            if (user == null)
+            {
+                return NotFound(new { Message = "L'utilisateur n'existe pas." });
+            }
+
+            // Check if the user already has this reaction
+            if (reaction.Users.Contains(user) && reaction.Users.Count == 1)
+            {
+                // Remove the user from the reaction
+                reaction.Users.Remove(user);
+                reaction.Quantity = 0;
+                _context.Entry(reaction).State = EntityState.Modified;
+                return Ok(null);
+            }
+            
+            if(reaction.Users.Contains(user) && reaction.Users.Count > 1)
+            {
+                reaction.Users.Remove(user);
+                reaction.Quantity--;
+                _context.Entry(reaction).State = EntityState.Modified;
+                return Ok(reaction);
+            }
+            
+            reaction.Users.Add(user);
+            reaction.Quantity++;
+
+            await _context.SaveChangesAsync();
 
             return Ok(reaction);
         }
+
 
         [HttpPost("{messageId}")]
         [Authorize]
