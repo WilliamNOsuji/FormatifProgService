@@ -43,6 +43,7 @@ namespace h23final_serveur.Data
             builder.Entity<IdentityUserRole<string>>().HasData(
                 new IdentityUserRole<string> { UserId = u1.Id, RoleId = "1"}
             );
+            
 
             builder.Entity<Channel>().HasData(
                 new { Id = 1, Name = "général | 📢" }, 

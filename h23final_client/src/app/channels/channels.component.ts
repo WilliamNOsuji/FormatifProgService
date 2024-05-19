@@ -19,6 +19,9 @@ export class ChannelsComponent implements OnInit {
 
   messageTextInput : string = "";
 
+  newChannelName : string ="";
+  channelName : string = "";
+
   reactionOverlayOn : boolean = false;
   @ViewChild("newReactionFile", {static:false}) newNeactionFile ?: ElementRef;
 
@@ -47,7 +50,11 @@ export class ChannelsComponent implements OnInit {
     
     // Allo 👋
     // Ce n'est pas grave si jamais il faut réactualiser la page pour voir le nouveau channel.
-
+    if(this.newChannelName != null){
+      let newChannel : Channel = await this.chatService.postChannelRequest(this.newChannelName);
+      this.channelList.push(newChannel);
+      this.newChannelName = "";
+    }
   }
 
   async getChannelMessages(){

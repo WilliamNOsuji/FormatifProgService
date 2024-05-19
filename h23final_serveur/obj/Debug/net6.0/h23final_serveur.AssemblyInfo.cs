@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("h23final_serveur")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+eb1bc2c3d9a432514229ec1b41b8dbee590b60f7")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0a32874c4b9428c9f00f20eda80407fe52c31c60")]
 [assembly: System.Reflection.AssemblyProductAttribute("h23final_serveur")]
 [assembly: System.Reflection.AssemblyTitleAttribute("h23final_serveur")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -37,6 +37,13 @@ builder.Services.AddCors(options =>
     });
 });
 
+// Add the authorization policy
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("moderator", policy =>
+        policy.RequireRole("moderator"));
+});
+
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
