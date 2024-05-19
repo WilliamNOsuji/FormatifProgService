@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using h23final_serveur.Data;
 
@@ -11,9 +12,10 @@ using h23final_serveur.Data;
 namespace h23final_serveur.Migrations
 {
     [DbContext(typeof(h23final_serveurContext))]
-    partial class h23final_serveurContextModelSnapshot : ModelSnapshot
+    [Migration("20240519192133_Question4")]
+    partial class Question4
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
